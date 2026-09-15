@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-dowód</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      canvas {
+          border: 1px solid #000;
+      }
+  </style>
+</head>
+<body>
+    <h2>
+     <!-- Zmieniono na ścieżkę lokalną -->
+     <img src="herb.png" width="30px" alt="Orzeł"/> Twój dokument tożsamości 
+  </h2> <br>
+    <canvas id="id-card" width="1180" height="716"></canvas>
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            const canvas = document.getElementById('id-card');
+            const ctx = canvas.getContext('2d');
+
+            const image = new Image();
+            // Zmieniono na ścieżkę lokalną. Musisz wgrać plik 'dowod_bg.png' do repozytorium!
+            image.src = 'dowod_bg.png'; 
+            image.onload = function() {
+                ctx.drawImage(image, 0, 0);
+
+                ctx.font = 'bold 24px Arial';
+                ctx.fillStyle = 'black';
+
+                ctx.fillText(urlParams.get('surname'), 443, 190); 
+                ctx.fillText(urlParams.get('given-names'), 443, 280); 
+                ctx.fillText(urlParams.get('citizenship'), 443, 360); 
+                ctx.fillText(urlParams.get('birthdate'), 783, 360); 
+                ctx.fillText(urlParams.get('id-number'), 443, 460); 
+                ctx.fillText(urlParams.get('gender'), 783, 440); 
+                ctx.fillText(urlParams.get('expiry-date'), 443, 540); 
+                ctx.fillText(urlParams.get('can-number'), 923, 635); 
+
+                const photo = new Image();
+                photo.src = urlParams.get('photo');
+                photo.onload = function() {
+                    ctx.drawImage(photo, 850, 50, 200, 250); 
+                };
+            };
+        };
+    </script>
+</body>
+</html>
